@@ -140,12 +140,26 @@ async function readFileAsync(filename) {
  */
 
 async function deleteFileAsync(filename) {
-  // code here
+  try {
+    await fs.unlink(filename)
+    console.log('Файл успішно видалено')
+    return null
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      console.error('Файл не існує:', filename)
+      return null
+    }
+    else {
+      console.error('Помилка при видаленні файлу:', error)
+      return null
+    }
+  }
 }
+
 
 // ! Приклад використання:
 // writeFileAsync('example.txt', 'Привіт, це тестовий файл!').then(() => {
 //   deleteFileAsync('example.txt')
 // })
 
-export { writeFileAsync, readFileAsync } //deleteFileAsync }
+export { writeFileAsync, readFileAsync, deleteFileAsync }
